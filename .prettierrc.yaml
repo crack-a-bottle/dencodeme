@@ -6,4 +6,4 @@ trailingComma: none
 bracketSpacing: true
 arrowParens: avoid
 parser: require("@typescript-eslint/typescript-estree")
-endOfLine: crlf
+endOfLine: lf

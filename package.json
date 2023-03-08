@@ -1,35 +1,39 @@
 {
-  "name": "dencodeme",
-  "version": "1.0.0",
-  "description": "Decode and encode text with various methods.",
-  "exports": {
-    "import": "./dist/index.mjs",
-    "require": "./dist/index.js",
-    "types": "./dist/index.d.ts"
-  },
-  "bin": {
-    "decodeme": "./bin/decodeme.js",
-    "encodeme": "./bin/encodeme.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/crack-a-bottle/dencodeme.git"
-  },
-  "author": "hiimjustin000",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/crack-a-bottle/dencodeme/issues"
-  },
-  "homepage": "https://github.com/crack-a-bottle/dencodeme#readme",
-  "scripts": {
-    "build": "tsup"
-  },
-  "devDependencies": {
-    "@types/node": "^18.14.6",
-    "@typescript-eslint/typescript-estree": "^5.54.0",
-    "prettier": "^2.8.4",
-    "tsup": "^6.6.3",
-    "typescript": "^4.9.5"
-  },
-  "packageManager": "pnpm@7.29.0"
+    "name": "dencodeme",
+    "version": "1.0.0",
+    "description": "Decode and encode text and other data using various methods.",
+    "exports": {
+        "import": "./dist/index.mjs",
+        "require": "./dist/index.js",
+        "types": "./dist/index.d.ts"
+    },
+    "bin": {
+        "decodeme": "./bin/decodeme.js",
+        "encodeme": "./bin/encodeme.js"
+    },
+    "files": [
+        "./bin",
+        "./dist"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/crack-a-bottle/dencodeme.git"
+    },
+    "author": "hiimjustin000",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/crack-a-bottle/dencodeme/issues"
+    },
+    "homepage": "https://github.com/crack-a-bottle/dencodeme#readme",
+    "scripts": {
+        "build": "tsup"
+    },
+    "devDependencies": {
+        "@types/node": "^18.14.6",
+        "@typescript-eslint/typescript-estree": "^5.54.0",
+        "prettier": "^2.8.4",
+        "tsup": "^6.6.3",
+        "typescript": "^4.9.5"
+    },
+    "packageManager": "pnpm@7.29.0"
 }
