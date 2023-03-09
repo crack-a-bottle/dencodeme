@@ -1,2 +1,2 @@
 #!/usr/bin/env node
-require("../dist/cli")(process.argv.slice(2), "encode");
+require("./cli")(process.argv.slice(2), "encode");
