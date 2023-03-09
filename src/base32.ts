@@ -5,12 +5,12 @@ export const REGEX = /[A-Z2-7]/gi;
 
 const bits = Buffer.of(32, 24, 16, 8, 0);
 
-export function encode(data: string | Buffer) {
+export function encode(data: string | Buffer, encoding: BufferEncoding = "utf8") {
     const chars = [35, 30, 25, 20, 15, 10, 5, 0];
     const pads = [0, 4, 3, 2, 1];
     let padding = 0;
 
-    return Buffer.from(data.toString()).reduce((a: number[], x: number, i: number, b: Uint8Array) => {
+    return Buffer.from(data.toString(encoding), encoding).reduce((a: number[], x: number, i: number, b: Uint8Array) => {
         const y = x << bits[i % 5];
         if (i % 5 == 0) a.push(y);
         else a[a.length - 1] += y;
