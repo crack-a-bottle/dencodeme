@@ -12,14 +12,14 @@ export function base(radix: number): BaseObject {
         radix: rdx,
         regex,
         encode(data, encoding = "utf8") {
-            return Buffer.from(data.toString(encoding), encoding).reduce((r: string, x: number) => r + x.toString(rdx).padStart(max, "0"), "");
+            return Buffer.from(data.toString(encoding), encoding).reduce((a, x) => a + x.toString(rdx).padStart(max, "0"), "");
         },
         decode(data, encoding) {
             const charMatch = data.toString().toLowerCase().match(regex);
             if (charMatch == null) return "";
 
-            const decoded = util.padStart(charMatch, max).reduce((r: Buffer, x: string) =>
-                Buffer.concat([r, Buffer.of(parseInt(x, rdx))]), util.EMPTY_BUFFER);
+            const decoded = util.padStart(charMatch, max).reduce((a, x) =>
+                Buffer.concat([a, Buffer.of(parseInt(x, rdx))]), util.EMPTY_BUFFER);
             return encoding ? decoded.toString(encoding) : decoded;
         }
     }
