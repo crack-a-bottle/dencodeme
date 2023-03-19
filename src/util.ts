@@ -1,4 +1,4 @@
-export const EMPTY_BUFFER = Buffer.alloc(0);
+export const EMPTY_BUFFER = Buffer.of();
 
 function getMapper(length: number) {
     return (a: string[], x: string, i: number) => {
