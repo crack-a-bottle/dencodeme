@@ -2,11 +2,11 @@ import * as fs from "fs";
 import * as path from "path";
 import { program } from "commander";
 import * as dencodeme from ".";
-import { BaseObject } from ".";
+import { NumberSystem } from ".";
 
 type Options = {
-    encoding: BufferEncoding,
-    file: boolean
+    encoding: BufferEncoding;
+    file: boolean;
 }
 
 const { version } = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "package.json"), "utf8"));
@@ -35,7 +35,7 @@ export = function (argv: string[], mode: "encode" | "decode") {
 
     program.name(`${mode}me`)
         .usage(`[command] [options]`)
-        .description(`${mode[0].toUpperCase() + mode.slice(1)}s data using various methods`)
+        .description(`${mode[0].toUpperCase() + mode.slice(1)}s data using various number systems`)
         .version(version, "-v, --version", "Outputs the current version")
         .helpOption("-h, --help", "Outputs this help menu")
         .addHelpCommand("help [command]", "Outputs help for command")
@@ -60,7 +60,7 @@ export = function (argv: string[], mode: "encode" | "decode") {
         .action(actionHandler as (...args: any[]) => void);
 
     for (const [command, base] of Object.entries(dencodeme)
-        .filter((x): x is [string, BaseObject] => typeof x[1] !== "function")
+        .filter((x): x is [string, NumberSystem] => typeof x[1] !== "function")
         .map((x): [string, number] => [x[0], x[1].radix])) {
         program.command(command)
             .summary(`${descStart} base ${base}`)

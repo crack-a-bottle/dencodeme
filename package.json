@@ -1,7 +1,7 @@
 {
   "name": "dencodeme",
   "version": "1.0.0",
-  "description": "Encode and decode data using various methods.",
+  "description": "Encode and decode data using various number systems.",
   "exports": {
     "import": "./dist/index.mjs",
     "require": "./dist/index.js",

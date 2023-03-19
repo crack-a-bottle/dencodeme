@@ -2,7 +2,7 @@ import { base } from "./base";
 import * as b32 from "./base32";
 import * as b64 from "./base64";
 
-export interface BaseObject {
+export interface NumberSystem {
     readonly charset: string;
     readonly radix: number;
     readonly regex: RegExp;
@@ -16,6 +16,6 @@ export const binary = base(2);
 export const octal = base(8);
 export const decimal = base(10);
 export const hexadecimal = base(16);
-export const base32: BaseObject = b32;
+export const base32: NumberSystem = b32;
 export const base36 = base(36);
-export const base64: BaseObject = b64;
+export const base64: NumberSystem = b64;

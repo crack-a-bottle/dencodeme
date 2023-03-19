@@ -1,7 +1,7 @@
-import type { BaseObject } from ".";
+import type { NumberSystem } from ".";
 import * as util from "./util";
 
-export function base(radix: number): BaseObject {
+export function base(radix: number): NumberSystem {
     const rdx = Math.floor(Math.min(36, Math.max(2, radix)));
     const max = (255).toString(rdx).length;
     const charset = "0123456789abcdefghijklmnopqrstuvwxyz".slice(0, rdx);
