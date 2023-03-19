@@ -29,12 +29,11 @@ module.exports = function (argv, mode) {
     const fileFlag = program
         .createOption("-f, --file", `Interprets the input as a file path and ${mode} the file at the path`);
     const inputArgument = program
-        .createArgument("<input...>", `The input data to ${mode}`)
-        .argParser(x => x.join(" "));
+        .createArgument("<input...>", `The input data to ${mode}`);
 
     function actionHandler(radix, input, options) {
         try {
-            return console.log((isNaN(radix) ? dencodeme[radix] : dencodeme.base(radix))(opts.file ?
+            return process.stdout.write((isNaN(radix) ? dencodeme[radix] : dencodeme.base(radix))(opts.file ?
                 fs.readFileSync(path.resolve(process.cwd(), input), isEncode ? options.encoding : "utf8") : input, options.encoding));
         } catch (err) {
             return program.error(err.message ?? err);

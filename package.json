@@ -1,43 +1,46 @@
 {
-    "name": "dencodeme",
-    "version": "1.0.0",
-    "description": "Encode and decode data using various methods.",
-    "exports": {
-        "import": "./dist/index.mjs",
-        "require": "./dist/index.js",
-        "types": "./dist/index.d.ts"
-    },
-    "bin": {
-        "decodeme": "./bin/decodeme.js",
-        "encodeme": "./bin/encodeme.js"
-    },
-    "files": [
-        "./bin",
-        "./dist"
-    ],
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/crack-a-bottle/dencodeme.git"
-    },
-    "author": "hiimjustin000",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/crack-a-bottle/dencodeme/issues"
-    },
-    "homepage": "https://github.com/crack-a-bottle/dencodeme#readme",
-    "scripts": {
-        "build": "tsup",
-        "lint": "prettier . -w",
-        "prepare": "pnpm build"
-    },
-    "dependencies": {
-        "commander": "^10.0.0"
-    },
-    "devDependencies": {
-        "@types/node": "^18.15.3",
-        "prettier": "^2.8.4",
-        "tsup": "^6.6.3",
-        "typescript": "^5.0.2"
-    },
-    "packageManager": "pnpm@7.29.3"
+  "name": "dencodeme",
+  "version": "1.0.0",
+  "description": "Encode and decode data using various methods.",
+  "exports": {
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.js",
+    "types": "./dist/index.d.ts"
+  },
+  "bin": {
+    "decodeme": "./bin/decodeme.js",
+    "encodeme": "./bin/encodeme.js"
+  },
+  "files": [
+    "./bin",
+    "./dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/crack-a-bottle/dencodeme.git"
+  },
+  "author": "hiimjustin000",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/crack-a-bottle/dencodeme/issues"
+  },
+  "homepage": "https://github.com/crack-a-bottle/dencodeme#readme",
+  "scripts": {
+    "build": "tsup",
+    "lint": "prettier . -w",
+    "prepare": "pnpm build"
+  },
+  "engines": {
+    "node": ""
+  },
+  "dependencies": {
+    "commander": "^10.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.15.3",
+    "prettier": "^2.8.4",
+    "tsup": "^6.6.3",
+    "typescript": "^5.0.2"
+  },
+  "packageManager": "pnpm@7.29.3"
 }
