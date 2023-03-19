@@ -31,7 +31,7 @@
     "prepare": "pnpm build"
   },
   "engines": {
-    "node": ""
+    "node": ">=16.0.0"
   },
   "dependencies": {
     "commander": "^10.0.0"
