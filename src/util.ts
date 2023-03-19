@@ -17,9 +17,9 @@ export function padEnd(data: string[], length: number): string[] {
 }
 
 export function quickMap(length: number, multiplier: (x: number) => number) {
-    return Array(length).fill(0).map((_x, i) => multiplier(i)).reverse();
+    return Array(length).fill(0).map((_, x) => multiplier(x)).reverse();
 }
 
 export function stringToNumber(str: string, charset: string) {
-    return str.split("").reverse().map(charset.indexOf).reduce((a, y, i) => a + (y >= 0 ? y * charset.length ** i : 0), 0);
+    return str.split("").reverse().map(charset.indexOf).reduce((a, x, i) => a + (x >= 0 ? x * charset.length ** i : 0), 0);
 }

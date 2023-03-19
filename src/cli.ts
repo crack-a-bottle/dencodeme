@@ -1,22 +1,16 @@
-const fs = require("fs");
-const path = require("path");
-const { program } = require("commander");
-const dencodeme = require("../dist");
+import * as fs from "fs";
+import * as path from "path";
+import { program } from "commander";
+import * as dencodeme from ".";
+import { BaseObject } from ".";
 
-const ENCODING_ALIASES = {
-    "ascii": "latin1",
-    "binary": "latin1",
-    "latin1": "latin1",
-    "ucs2": "utf16le",
-    "ucs-2": "utf16le",
-    "utf16le": "utf16le",
-    "utf-16le": "utf16le",
-    "utf8": "utf8",
-    "utf-8": "utf8"
+type Options = {
+    encoding: BufferEncoding,
+    file: boolean
 }
 
 const { version } = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "package.json"), "utf8"));
-module.exports = function (argv, mode) {
+export = function (argv: string[], mode: "encode" | "decode") {
     if (!["encode", "decode"].includes(mode)) return process.exit(1);
     const isEncode = mode.startsWith("e");
 
@@ -24,19 +18,18 @@ module.exports = function (argv, mode) {
     const encodingOption = program
         .createOption("-e, --encoding <format>", `The encoding to ${isEncode ? "write" : "read"} the input data in`)
         .default("utf8")
-        .choices(["ascii", "utf8", "utf-8", "utf16le", "ucs2", "ucs-2", "latin1", "binary"])
-        .argParser(x => ENCODING_ALIASES[x]);
+        .choices(["ascii", "binary", "latin1", "ucs2", "utf8", "utf16le"]);
     const fileFlag = program
         .createOption("-f, --file", `Interprets the input as a file path and ${mode} the file at the path`);
     const inputArgument = program
         .createArgument("<input...>", `The input data to ${mode}`);
 
-    function actionHandler(radix, input, options) {
+    function actionHandler(radix: number | Exclude<keyof typeof dencodeme, "base">, input: string[], options: Options): void {
         try {
-            return process.stdout.write((isNaN(radix) ? dencodeme[radix] : dencodeme.base(radix))(opts.file ?
-                fs.readFileSync(path.resolve(process.cwd(), input), isEncode ? options.encoding : "utf8") : input, options.encoding));
+            process.stdout.write((typeof radix == "number" ? dencodeme.base(radix) : dencodeme[radix])[mode](options.file ?
+                fs.readFileSync(path.resolve(process.cwd(), ...input), isEncode ? options.encoding : "utf8") : input.join(" "), options.encoding));
         } catch (err) {
-            return program.error(err.message ?? err);
+            program.error(String(err));
         }
     }
 
@@ -64,9 +57,11 @@ module.exports = function (argv, mode) {
         .addOption(encodingOption)
         .addOption(fileFlag)
         .alias("radix")
-        .action(actionHandler);
+        .action(actionHandler as (...args: any[]) => void);
 
-    for (const [command, base] of Object.entries(dencodeme).filter(x => typeof x[1] !== "function").map(x => [x[0], x[1].radix])) {
+    for (const [command, base] of Object.entries(dencodeme)
+        .filter((x): x is [string, BaseObject] => typeof x[1] !== "function")
+        .map((x): [string, number] => [x[0], x[1].radix])) {
         program.command(command)
             .summary(`${descStart} base ${base}`)
             .description(`${descStart} a base/radix of ${base}`)
@@ -75,7 +70,7 @@ module.exports = function (argv, mode) {
             .addOption(encodingOption)
             .addOption(fileFlag)
             .aliases(command.startsWith("base") ? [`b${command.slice(4)}`] : [command.slice(0, 3), `base${base}`, `b${base}`])
-            .action(actionHandler.bind(null, command));
+            .action(actionHandler.bind(null, command as Exclude<keyof typeof dencodeme, "base">) as (...args: any[]) => void);
     }
 
     program.parse(argv, { from: "user" });

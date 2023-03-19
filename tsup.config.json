@@ -1,10 +1,11 @@
 {
-  "entry": ["src/index.ts"],
+  "$schema": "https://cdn.jsdelivr.net/npm/tsup/schema.json",
+  "entry": ["src/index.ts", "src/cli.ts"],
   "external": [],
   "noExternal": [],
   "platform": "node",
   "format": ["esm", "cjs"],
-  "target": "es2022",
+  "target": "es2021",
   "skipNodeModulesBundle": true,
   "clean": true,
   "minify": false,
