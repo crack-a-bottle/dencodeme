@@ -1,7 +1,7 @@
 {
     "name": "dencodeme",
     "version": "1.0.0",
-    "description": "Decode and encode text and other data using various methods.",
+    "description": "Encode and decode data using various methods.",
     "exports": {
         "import": "./dist/index.mjs",
         "require": "./dist/index.js",
@@ -26,18 +26,18 @@
     },
     "homepage": "https://github.com/crack-a-bottle/dencodeme#readme",
     "scripts": {
-        "build": "pnpm tsup",
+        "build": "tsup",
+        "lint": "prettier . -w",
         "prepare": "pnpm build"
     },
-    "devDependencies": {
-        "@types/node": "^18.14.6",
-        "@typescript-eslint/typescript-estree": "^5.54.0",
-        "prettier": "^2.8.4",
-        "tsup": "^6.6.3",
-        "typescript": "^4.9.5"
-    },
-    "packageManager": "pnpm@7.29.0",
     "dependencies": {
         "commander": "^10.0.0"
-    }
+    },
+    "devDependencies": {
+        "@types/node": "^18.15.3",
+        "prettier": "^2.8.4",
+        "tsup": "^6.6.3",
+        "typescript": "^5.0.2"
+    },
+    "packageManager": "pnpm@7.29.3"
 }

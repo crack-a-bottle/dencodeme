@@ -4,17 +4,18 @@ import * as util from "./util";
 export function base(radix: number): BaseObject {
     const rdx = Math.floor(Math.min(36, Math.max(2, radix)));
     const max = (255).toString(rdx).length;
-    const CHARSET = "0123456789abcdefghijklmnopqrstuvwxyz".slice(0, rdx);
-    const REGEX = new RegExp(`[${CHARSET}]`, "gi");
+    const charset = "0123456789abcdefghijklmnopqrstuvwxyz".slice(0, rdx);
+    const regex = new RegExp(`[${charset}]`, "gi");
 
     return {
-        CHARSET,
-        REGEX,
-        encode(data) {
-            return Buffer.from(data.toString("latin1")).reduce((r: string, x: number) => r + x.toString(rdx).padStart(max, "0"), "");
+        charset,
+        radix: rdx,
+        regex,
+        encode(data, encoding = "utf8") {
+            return Buffer.from(data.toString(encoding), encoding).reduce((r: string, x: number) => r + x.toString(rdx).padStart(max, "0"), "");
         },
         decode(data, encoding) {
-            const charMatch = data.toString().toLowerCase().match(REGEX);
+            const charMatch = data.toString().toLowerCase().match(regex);
             if (charMatch == null) return "";
 
             const decoded = util.padStart(charMatch, max).reduce((r: Buffer, x: string) =>

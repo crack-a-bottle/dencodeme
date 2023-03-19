@@ -3,8 +3,9 @@ import * as b32 from "./base32";
 import * as b64 from "./base64";
 
 export interface BaseObject {
-    readonly CHARSET: string;
-    readonly REGEX: RegExp;
+    readonly charset: string;
+    readonly radix: number;
+    readonly regex: RegExp;
     encode(data: string | Buffer, encoding?: BufferEncoding): string;
     decode(data: string, encoding?: BufferEncoding): string | Buffer;
 }
