@@ -21,5 +21,5 @@ export function quickMap(length: number, multiplier: (x: number) => number) {
 }
 
 export function stringToNumber(str: string, charset: string) {
-    return str.split("").reverse().map(charset.indexOf).reduce((a, x, i) => a + (x >= 0 ? x * charset.length ** i : 0), 0);
+    return str.split("").reverse().map(x => charset.indexOf(x)).reduce((a, x, i) => a + (x >= 0 ? x * charset.length ** i : 0), 0);
 }
