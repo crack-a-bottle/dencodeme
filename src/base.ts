@@ -18,8 +18,7 @@ export function base(radix: number): NumberSystem {
             const charMatch = data.toString().toLowerCase().match(regex);
             if (charMatch == null) return "";
 
-            const decoded = util.padStart(charMatch, max).reduce((a, x) =>
-                Buffer.concat([a, Buffer.of(parseInt(x, rdx))]), util.EMPTY_BUFFER);
+            const decoded = util.padStart(charMatch, max).reduce((a, x) => Buffer.concat([a, Buffer.of(parseInt(x, rdx))]), util.EMPTY_BUFFER);
             return encoding ? decoded.toString(encoding) : decoded;
         }
     }

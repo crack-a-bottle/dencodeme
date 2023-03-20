@@ -2,7 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { program } from "commander";
 import * as dencodeme from ".";
-import { NumberSystem } from ".";
+import type { NumberSystem } from ".";
 
 type Options = {
     encoding: BufferEncoding;

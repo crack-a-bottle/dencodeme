@@ -18,8 +18,7 @@ export function encode(data: string | Buffer, encoding: BufferEncoding = "utf8")
 
         if ((i + 1) == r.length) padding = pads[r.length % 5];
         return a;
-    }, [] as number[]).map((x, i, r) =>
-        chars.slice(0, 8 - ((i + 1) == r.length ? padding : 0)).map(y => charset[x >> y & 31])).join("") + "=".repeat(padding);
+    }, [] as number[]).map((x, i, r) => chars.slice(0, 8 - ((i + 1) == r.length ? padding : 0)).map(y => charset[x >> y & 31]).join("")).join("") + "=".repeat(padding);
 }
 
 export function decode(data: string, encoding?: BufferEncoding) {

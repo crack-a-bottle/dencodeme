@@ -1,7 +1,7 @@
 {
   "name": "dencodeme",
   "version": "1.0.0",
-  "description": "Encode and decode data using various number systems.",
+  "description": "Encode/Decode data using various number systems.",
   "exports": {
     "import": "./dist/index.mjs",
     "require": "./dist/index.js",
@@ -46,5 +46,5 @@
     "tsup": "^6.7.0",
     "typescript": "^5.0.2"
   },
-  "packageManager": "pnpm@7.29.3"
+  "packageManager": "pnpm@7.30.0"
 }

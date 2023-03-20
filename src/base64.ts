@@ -18,15 +18,14 @@ export function encode(data: string | Buffer, encoding: BufferEncoding = "utf8")
 
         if ((i + 1) == r.length) padding = pads[r.length % 3];
         return a;
-    }, [] as number[]).map((x, i, r) =>
-        chars.slice(0, 4 - ((i + 1) == r.length ? padding : 0)).reduce((a, y) => a + charset[x >> y & 63], "")) + "=".repeat(padding);
+    }, [] as number[]).map((x, i, r) => chars.slice(0, 4 - ((i + 1) == r.length ? padding : 0)).map(y => charset[x >> y & 63]).join("")).join("") + "=".repeat(padding);
 }
 
 export function decode(data: string, encoding?: BufferEncoding) {
     const charMatch = data.toString().replaceAll("-", "+").replaceAll("_", "/").match(regex);
     if (charMatch == null) return "";
 
-    const decoded = util.padEnd(charMatch, 4).reduce((a: Buffer, x: string) => {
+    const decoded = util.padEnd(charMatch, 4).reduce((a, x) => {
         const triple = util.stringToNumber(x, charset);
         return Buffer.concat([a, bits.map(y => triple >> y & 255)]);
     }, util.EMPTY_BUFFER);
