@@ -7,11 +7,11 @@ function getMapper(length: number) {
 }
 
 export function padStart(data: string[], length: number): string[] {
-    return [ ...Array(length - data.length % length).fill("0"), ...data ].reduce(getMapper(length), []);
+    return [ ...Array((length - data.length % length) % length).fill("0"), ...data ].reduce(getMapper(length), []);
 }
 
 export function padEnd(data: string[], length: number): string[] {
-    return [ ...data, ...Array(length - data.length % length).fill("=") ].reduce(getMapper(length), []);
+    return [ ...data, ...Array((length - data.length % length) % length).fill("=") ].reduce(getMapper(length), []);
 }
 
 export function quickMap(length: number, multiplier: (x: number) => number) {
