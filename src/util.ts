@@ -1,5 +1,3 @@
-export const EMPTY_BUFFER = Buffer.of();
-
 function getMapper(length: number) {
     return (a: string[], x: string, i: number) => {
         if (i % length == 0) a.push(x);
@@ -17,7 +15,7 @@ export function padEnd(data: string[], length: number): string[] {
 }
 
 export function quickMap(length: number, multiplier: (x: number) => number) {
-    return Array(length).fill(0).map((_, x) => multiplier(x)).reverse();
+    return Array(length).fill(0).map((_, x) => multiplier(x));
 }
 
 export function stringToNumber(str: string, charset: string) {

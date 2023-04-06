@@ -12,13 +12,13 @@ export function base(radix: number): NumberSystem {
         radix: rdx,
         regex,
         encode(data, encoding = "utf8") {
-            return Buffer.from(data.toString(encoding), encoding).reduce((a, x) => a + x.toString(rdx).padStart(max, "0"), "");
+            return Buffer.from(data.toString(encoding), encoding).toJSON().data.map(x => x.toString(rdx).padStart(max, "0")).join("");
         },
         decode(data, encoding) {
             const charMatch = data.toString().toLowerCase().match(regex);
             if (charMatch == null) return "";
 
-            const decoded = util.padStart(charMatch, max).reduce((a, x) => Buffer.concat([a, Buffer.of(parseInt(x, rdx))]), util.EMPTY_BUFFER);
+            const decoded = Buffer.from(util.padStart(charMatch, max).map(x => parseInt(x, rdx)));
             return encoding ? decoded.toString(encoding) : decoded;
         }
     }
