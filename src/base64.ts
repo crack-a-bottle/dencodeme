@@ -15,10 +15,10 @@ export function encode(data: string | Buffer, encoding: BufferEncoding = "utf8")
         if (i % 3 == 0) a.push(y);
         else a[a.length - 1] += y;
 
-        if ((i + 1) == r.length) padding = pads[r.length % 3];
+        if ((i + 1) >= r.length) padding = pads[r.length % 3];
         return a;
     }, [] as number[]).map((x, i, r) =>
-        chars.slice(0, 4 - ((i + 1) == r.length ? padding : 0)).map(y =>
+        chars.slice(0, 4 - ((i + 1) >= r.length ? padding : 0)).map(y =>
             charset[Math.floor(x / y) % 64]).join("")).join("") + "=".repeat(padding);
 }
 
