@@ -2,6 +2,9 @@
   "name": "dencodeme",
   "version": "1.0.0",
   "description": "Encode/Decode data using various number systems.",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "exports": {
     "import": "./dist/index.mjs",
     "require": "./dist/index.js",
