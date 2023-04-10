@@ -7,6 +7,7 @@ import type { NumberSystem } from ".";
 type Options = {
     encoding: BufferEncoding;
     file: boolean;
+    out: string;
 }
 
 const { version } = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "package.json"), "utf8"));
@@ -22,12 +23,16 @@ export = function (argv: string[], mode: "encode" | "decode") {
     const fileFlag = program
         .createOption("-f, --file", `Interprets the input as a file path and ${mode} the file at the path`);
     const inputArgument = program
-        .createArgument("<input...>", `The input data to ${mode}`);
+        .createArgument("<input>", `The input data to ${mode}`);
+    const outOption = program
+        .createOption("-o, --out <path>", `The file path to write the output data to.`)
+        .default("utf8");
 
-    function actionHandler(radix: number | Exclude<keyof typeof dencodeme, "base">, input: string[], options: Options): void {
+    function actionHandler(radix: number | Exclude<keyof typeof dencodeme, "base">, input: string, options: Options) {
         try {
-            process.stdout.write((typeof radix == "number" ? dencodeme.base(radix) : dencodeme[radix])[mode](options.file ?
-                fs.readFileSync(path.resolve(process.cwd(), ...input), isEncode ? options.encoding : "utf8") : input.join(" "), options.encoding));
+            const output = (typeof radix == "number" ? dencodeme.base(radix) : dencodeme[radix])[mode](options.file ?
+                fs.readFileSync(path.resolve(process.cwd(), input), isEncode ? options.encoding : "utf8") : input, options.encoding);
+            options.out ? fs.writeFileSync(path.resolve(process.cwd(), options.out), output) : process.stdout.write(output);
         } catch (err) {
             program.error(String(err));
         }
@@ -38,16 +43,11 @@ export = function (argv: string[], mode: "encode" | "decode") {
         .description(`${mode[0].toUpperCase() + mode.slice(1)}s data using various number systems`)
         .version(version, "-v, --version", "Outputs the current version")
         .helpOption("-h, --help", "Outputs this help menu")
-        .addHelpCommand("help [command]", "Outputs help for command")
-        .configureHelp({
-            subcommandTerm(cmd) {
-                return cmd.name() + (cmd.aliases().length > 0 ? "|" + cmd.alias() : "") + " " + cmd.usage();
-            }
-        });
+        .addHelpCommand("help [command]", "Outputs help for command");
 
     program.command("base")
         .description(`${descStart} the specified base/radix`)
-        .usage("<radix> [options] -- <input...>")
+        .usage("<radix> [options] <input>")
         .argument("<radix>", `The base/radix to ${mode} ${isEncode ? "with" : "from"}, clamped to range 2-36`, x => {
             const parsed = parseInt(x, 10);
             if (Number.isNaN(parsed)) return program.error("Base/Radix is not a valid base 10 number");
@@ -56,8 +56,9 @@ export = function (argv: string[], mode: "encode" | "decode") {
         .addArgument(inputArgument)
         .addOption(encodingOption)
         .addOption(fileFlag)
+        .addOption(outOption)
         .alias("radix")
-        .action(actionHandler as (...args: any[]) => void);
+        .action(actionHandler);
 
     for (const [command, base] of Object.entries(dencodeme)
         .filter((x): x is [string, NumberSystem] => typeof x[1] !== "function")
@@ -65,12 +66,13 @@ export = function (argv: string[], mode: "encode" | "decode") {
         program.command(command)
             .summary(`${descStart} base ${base}`)
             .description(`${descStart} a base/radix of ${base}`)
-            .usage("[options] -- <input...>")
+            .usage("[options] <input>")
             .addArgument(inputArgument)
             .addOption(encodingOption)
             .addOption(fileFlag)
+            .addOption(outOption)
             .aliases(command.startsWith("base") ? [`b${command.slice(4)}`] : [command.slice(0, 3), `base${base}`, `b${base}`])
-            .action(actionHandler.bind(null, command as Exclude<keyof typeof dencodeme, "base">) as (...args: any[]) => void);
+            .action(actionHandler.bind(null, command as Exclude<keyof typeof dencodeme, "base">));
     }
 
     program.parse(argv, { from: "user" });
