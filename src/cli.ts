@@ -17,7 +17,7 @@ export = function (argv: string[], mode: "encode" | "decode") {
 
     const descStart = `${mode[0].toUpperCase() + mode.slice(1)}s the specified input data ${isEncode ? "with" : "from"}`;
     const encodingOption = program
-        .createOption("-e, --encoding <format>", `The encoding to ${isEncode ? "write" : "read"} the input data in`)
+        .createOption("-e, --encoding <format>", `The encoding to ${isEncode ? "read" : "write"} the input data in`)
         .default("utf8")
         .choices(["ascii", "binary", "latin1", "ucs2", "utf8", "utf16le"]);
     const fileFlag = program
@@ -31,8 +31,9 @@ export = function (argv: string[], mode: "encode" | "decode") {
     function actionHandler(radix: number | Exclude<keyof typeof dencodeme, "base">, input: string, options: Options) {
         try {
             const output = (typeof radix == "number" ? dencodeme.base(radix) : dencodeme[radix])[mode](options.file ?
-                fs.readFileSync(path.resolve(process.cwd(), input), isEncode ? options.encoding : "utf8") : input, options.encoding);
-            options.out ? fs.writeFileSync(path.resolve(process.cwd(), options.out), output) : process.stdout.write(output);
+                fs.readFileSync(path.resolve(process.cwd(), input), isEncode ? options.encoding : "utf8") : input);
+            options.out ? fs.writeFileSync(path.resolve(process.cwd(), options.out), output, options.encoding) :
+                process.stdout.write(output.toString(options.encoding));
         } catch (err) {
             program.error(String(err));
         }
