@@ -10,9 +10,10 @@ type Options = {
     out: string;
 }
 
+// Get the version from the package.json file
 const { version } = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "package.json"), "utf8"));
+// The main CLI function
 export = function (argv: string[], mode: "encode" | "decode") {
-    if (!["encode", "decode"].includes(mode)) return process.exit(1);
     const isEncode = mode.startsWith("e");
 
     const descStart = `${mode[0].toUpperCase() + mode.slice(1)}s the specified input data ${isEncode ? "with" : "from"}`;
@@ -61,6 +62,7 @@ export = function (argv: string[], mode: "encode" | "decode") {
         .alias("radix")
         .action(actionHandler);
 
+    // Create a command for each base/radix in the dencodeme object
     for (const [command, base] of Object.entries(dencodeme)
         .filter((x): x is [string, NumberSystem] => typeof x[1] !== "function")
         .map((x): [string, number] => [x[0], x[1].radix])) {
@@ -76,5 +78,6 @@ export = function (argv: string[], mode: "encode" | "decode") {
             .action(actionHandler.bind(null, command as Exclude<keyof typeof dencodeme, "base">));
     }
 
+    // Parse the given arguments and run the program
     program.parse(argv, { from: "user" });
 }

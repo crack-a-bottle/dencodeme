@@ -4,10 +4,11 @@ export const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123
 export const radix = 64;
 export const regex = /[A-Za-z0-9+/]/gi;
 
-const bits = util.quickMap(3, x => 2 ** (x * 8)).reverse();
-const chars = util.quickMap(4, x => 2 ** (x * 6)).reverse();
-const pads = util.quickMap(3, x => (4 - Math.ceil(x * 4 / 3)) % 4);
+const bits = util.quickMap(3, x => 2 ** (x * 8), true); // 65536, 256, 1
+const chars = util.quickMap(4, x => 2 ** (x * 6), true); // 262144, 4096, 64, 1
+const pads = util.quickMap(3, x => (4 - Math.ceil(x * 4 / 3)) % 4, false); // 0, 2, 1
 
+// Encodes the given data into a Base 64 encoded string.
 export function encode(data: string | Buffer, encoding: BufferEncoding = "utf8") {
     let padding = 0;
     return Buffer.from(data.toString(encoding), encoding).reduce((a, x, i, r) => {
@@ -22,8 +23,9 @@ export function encode(data: string | Buffer, encoding: BufferEncoding = "utf8")
             charset[Math.floor(x / y) % 64]).join("")).join("") + "=".repeat(padding);
 }
 
+// Decodes the given Base 64 encoded string into a buffer, or a string if a character encoding is provided.
 export function decode(data: string, encoding?: BufferEncoding) {
-    const decoded = Buffer.from(util.padEnd(data.toString().replaceAll("-", "+").replaceAll("_", "/").match(regex) ?? [], 4)
+    const decoded = Buffer.from(util.padEnd((data.toString().replaceAll("-", "+").replaceAll("_", "/").match(regex) ?? []).join(""), 4)
         .flatMap(x => {
             const value = util.stringToNumber(x, charset);
             return bits.slice(0, pads.findIndex(y => y == (x.match(/=/g) ?? []).length) || 3)
