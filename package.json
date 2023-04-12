@@ -24,7 +24,7 @@
   },
   "author": "hiimjustin000",
   "license": "MIT",
-  "homepage": "https://crack-a-bottle.github.io/dencodeme",
+  "homepage": "https://crackabottle.js.org/dencodeme",
   "scripts": {
     "build": "tsup",
     "docs": "typedoc src --exclude src/cli.ts",
