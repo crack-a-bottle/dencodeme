@@ -1,0 +1,4 @@
+{
+  "extension": ["ts"],
+  "node-option": ["experimental-loader=ts-node/esm"]
+}

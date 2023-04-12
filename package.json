@@ -1,7 +1,7 @@
 {
   "name": "dencodeme",
   "version": "1.0.0",
-  "description": "Encode/Decode data using various number systems and methods.",
+  "description": "Encode/Decode data using various encoding schemes.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -24,12 +24,11 @@
   },
   "author": "hiimjustin000",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/crack-a-bottle/dencodeme/issues"
-  },
-  "homepage": "https://github.com/crack-a-bottle/dencodeme#readme",
+  "homepage": "https://crack-a-bottle.github.io/dencodeme",
   "scripts": {
     "build": "tsup",
+    "docs": "typedoc src --exclude src/cli.ts",
+    "test": "ts-mocha test",
     "lint": "prettier . -w",
     "prepare": "pnpm build"
   },
@@ -47,7 +46,7 @@
     "ts-mocha": "^10.0.0",
     "ts-node": "^10.9.1",
     "tsup": "^6.7.0",
+    "typedoc": "^0.24.1",
     "typescript": "^5.0.2"
-  },
-  "packageManager": "pnpm@7.30.0"
+  }
 }

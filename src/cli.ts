@@ -26,8 +26,7 @@ export = function (argv: string[], mode: "encode" | "decode") {
     const inputArgument = program
         .createArgument("<input>", `The input data to ${mode}`);
     const outOption = program
-        .createOption("-o, --out <path>", `The file path to write the output data to.`)
-        .default("utf8");
+        .createOption("-o, --out <path>", `The file path to write the output data to.`);
 
     function actionHandler(radix: number | Exclude<keyof typeof dencodeme, "base">, input: string, options: Options) {
         try {
@@ -42,7 +41,7 @@ export = function (argv: string[], mode: "encode" | "decode") {
 
     program.name(`${mode}me`)
         .usage(`[command] [options]`)
-        .description(`${mode[0].toUpperCase() + mode.slice(1)}s data using various number systems`)
+        .description(`${mode[0].toUpperCase() + mode.slice(1)} data using various encoding schemes.`)
         .version(version, "-v, --version", "Outputs the current version")
         .helpOption("-h, --help", "Outputs this help menu")
         .addHelpCommand("help [command]", "Outputs help for command");

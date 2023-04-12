@@ -1,73 +1,77 @@
-# Turborepo starter
+# dencodeme
+Encode/Decode data using various encoding schemes.
 
-This is an official Yarn (Berry) starter turborepo.
-
-## What's inside?
-
-This turborepo uses [Yarn](https://yarnpkg.com/) as a package manager. It includes the following packages/apps:
-
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `ui`: a stub React component library shared by both `web` and `docs` applications
-- `eslint-config-custom`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `tsconfig`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
+## Installation
+### Package
+```bash
+$ npm install dencodeme
 ```
-cd my-turborepo
-yarn run build
+### CLI
+```bash
+$ npm install -g dencodeme
 ```
 
-### Develop
-
-To develop all apps and packages, run the following command:
-
+## Command line usage
 ```
-cd my-turborepo
-yarn run dev
+$ encodeme --help
+Usage: encodeme [options] [command]
+
+Encodes data using various encoding schemes.
+```
+```
+$ decodeme --help
+Usage: decodeme [options] [command]
+
+Decodes data using various encoding schemes.
+```
+### Options
+```
+  -v, --version  Outputs the current version
+  -h, --help     Outputs this help menu
+```
+### Commands
+```
+  base|radix [options] <radix> <input>  Decodes the specified input data from the specified base/radix
+  base32|b32 [options] <input>          Decodes the specified input data from base 32
+  base36|b36 [options] <input>          Decodes the specified input data from base 36
+  base64|b64 [options] <input>          Decodes the specified input data from base 64
+  binary|bin [options] <input>          Decodes the specified input data from base 2
+  decimal|dec [options] <input>         Decodes the specified input data from base 10
+  hexadecimal|hex [options] <input>     Decodes the specified input data from base 16
+  octal|oct [options] <input>           Decodes the specified input data from base 8
+  help [command]                        Outputs help for command
 ```
 
-### Remote Caching
-
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
-
+## API usage
+### Importing
+The package can be imported using CJS or ESM syntax.
+```javascript
+const dencodeme = require("dencodeme");
 ```
-cd my-turborepo
-yarn dlx turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your turborepo:
-
-```
-yarn dlx turbo link
+```javascript
+import * as dencodeme from "dencodeme";
 ```
 
-## Useful Links
+### Encoding
+```javascript
+const dencodeme = require("dencodeme");
+dencodeme.binary.encode("hello yall"); // 01101000011001010110110001101100011011110010000001111001011000010110110001101100
+dencodeme.decimal.encode("hello yall"); // 104101108108111032121097108108
+dencodeme.hexadecimal.encode("hello yall"); // 68656c6c6f2079616c6c
+dencodeme.base(5).encode("hello yall"); // 0404040104130413042101120441034204130413
+```
 
-Learn more about the power of Turborepo:
+### Decoding
+```javascript
+const dencodeme = require("dencodeme");
+dencodeme.binary.decode("01101000011001010110110001101100011011110010000001111001011000010110110001101100"); // hello yall
+dencodeme.decimal.decode("104101108108111032121097108108"); // hello yall
+dencodeme.hexadecimal.decode("68656c6c6f2079616c6c"); // hello yall
+dencodeme.base(5).decode("0404040104130413042101120441034204130413"); // hello yall
+```
 
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+## Documentation
+The documentation can be found [here](https://crack-a-bottle.github.io/dencodeme).
+
+## License
+[MIT](./LICENSE)

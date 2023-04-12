@@ -19,5 +19,5 @@ indent_size = 2
 trim_trailing_whitespace = false
 insert_final_newline = false
 
-[.vscode/settings.json]
+[.vscode/*.json]
 indent_size = 4
