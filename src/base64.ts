@@ -12,9 +12,8 @@ const pads = util.quickMap(3, x => (4 - Math.ceil(x * 4 / 3)) % 4, false); // 0,
 export function encode(data: string | Buffer, encoding: BufferEncoding = "utf8") {
     let padding = 0;
     return Buffer.from(data.toString(encoding), encoding).reduce((a, x, i, r) => {
-        const y = x * bits[i % 3];
-        if (i % 3 == 0) a.push(y);
-        else a[a.length - 1] += y;
+        if (i % 3 == 0) a.push(0);
+        a[a.length - 1] += x * bits[i % 3];
 
         if ((i + 1) >= r.length) padding = pads[r.length % 3];
         return a;

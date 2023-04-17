@@ -71,7 +71,7 @@ dencodeme.base(5).decode("0404040104130413042101120441034204130413"); // hello y
 ```
 
 ## Documentation
-The documentation can be found [here](https://crack-a-bottle.github.io/dencodeme).
+The documentation can be found [here](https://crackabottle.js.org/dencodeme).
 
 ## License
-[MIT](./LICENSE)
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.

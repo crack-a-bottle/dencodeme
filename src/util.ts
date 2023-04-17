@@ -1,9 +1,8 @@
 // Returns a mapper function to split a string into an array of strings of the given length.
 function getMapper(length: number) {
     return (a: string[], x: string, i: number) => {
-        if (i % length == 0) a.push(x);
-        else a[a.length - 1] += x;
-        return a;
+        if (i % length == 0) a.push("");
+        return a[a.length - 1] += x, a;
     }
 }
 
