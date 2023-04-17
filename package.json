@@ -1,6 +1,6 @@
 {
   "name": "dencodeme",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Encode/Decode data using various encoding schemes.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -27,7 +27,7 @@
   "homepage": "https://crackabottle.js.org/dencodeme",
   "scripts": {
     "build": "tsup",
-    "docs": "typedoc src --exclude src/cli.ts",
+    "docs": "typedoc src --exclude src/cli.ts --includeVersion",
     "test": "ts-mocha test",
     "lint": "prettier . -w",
     "prepare": "pnpm build"
