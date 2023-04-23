@@ -5,5 +5,5 @@ quoteProps: consistent
 trailingComma: none
 bracketSpacing: true
 arrowParens: avoid
-parser: require("@typescript-eslint/typescript-estree")
+parser: typescript
 endOfLine: lf

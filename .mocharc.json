@@ -1,4 +1,5 @@
 {
-  "extension": ["ts"],
-  "node-option": ["experimental-loader=ts-node/esm"]
+  "$schema": "https://json.schemastore.org/mocharc",
+  "spec": ["test/**/*.test.ts"],
+  "require": ["ts-node/register"]
 }
