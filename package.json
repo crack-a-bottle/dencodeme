@@ -1,6 +1,6 @@
 {
   "name": "dencodeme",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Encode/Decode data using various encoding schemes.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -47,5 +47,23 @@
     "tsup": "^6.7.0",
     "typedoc": "^0.24.4",
     "typescript": "^5.0.4"
-  }
+  },
+  "keywords": [
+    "dencodeme",
+    "encodeme",
+    "decodeme",
+    "encode",
+    "decode",
+    "base64",
+    "base32",
+    "base16",
+    "base10",
+    "base8",
+    "base2",
+    "hex",
+    "binary",
+    "decimal",
+    "octal",
+    "cli"
+  ]
 }
