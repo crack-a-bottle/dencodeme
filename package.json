@@ -27,7 +27,7 @@
   "homepage": "https://crackabottle.js.org/dencodeme",
   "scripts": {
     "build": "tsup",
-    "docs": "typedoc src/index.ts --includeVersion",
+    "build:docs": "typedoc src/index.ts --includeVersion",
     "test": "mocha",
     "lint": "prettier . -w",
     "prepare": "pnpm build"
