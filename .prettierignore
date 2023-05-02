@@ -1,7 +1,10 @@
-**/**
-!**/*.js
-!**/*.ts
+*
+!*.js
+!*.ts
 .git
 .vscode
 dist
+!bin
+!src
+!test
 node_modules

@@ -6,30 +6,53 @@ const { program } = require("commander");
 const dencodeme = require("../dist");
 
 const encodingOption = program
-    .createOption("-e, --encoding <format>", "The encoding to read the input data in")
+    .createOption(
+        "-e, --encoding <format>",
+        "The encoding to read the input data in"
+    )
     .default("utf8")
     .choices(["ascii", "binary", "latin1", "ucs2", "utf8", "utf16le"]);
-const fileFlag = program
-    .createOption("-f, --file", "Interprets the input as a file path and encodes the file at the path");
-const inputArgument = program
-    .createArgument("<input>", "The input data to encode");
-const outOption = program
-    .createOption("-o, --out <path>", "The file path to write the output data to");
+const fileFlag = program.createOption(
+    "-f, --file",
+    "Interprets the input as a file path and encodes the file at the path"
+);
+const inputArgument = program.createArgument(
+    "<input>",
+    "The input data to encode"
+);
+const outOption = program.createOption(
+    "-o, --out <path>",
+    "The file path to write the output data to"
+);
 
-program.name("encodeme")
+program
+    .name("encodeme")
     .usage("[command] [options]")
     .description("Encode data using various encoding schemes.")
-    .version(require("../package.json").version, "-v, --version", "Outputs the current version")
+    .version(
+        require("../package.json").version,
+        "-v, --version",
+        "Outputs the current version"
+    )
     .helpOption("-h, --help", "Outputs this help menu")
     .addHelpCommand("help [command]", "Outputs help for command");
 
-program.command("base")
-    .description("Encodes the specified input data with the specified base/radix")
+program
+    .command("base")
+    .description(
+        "Encodes the specified input data with the specified base/radix"
+    )
     .usage("<radix> [options] <input>")
-    .argument("<radix>", "The base/radix to encode with, clamped to range 2-36", x => {
-        const parsed = parseInt(x, 10);
-        return Number.isNaN(parsed) ? program.error("Base/Radix is not a valid base 10 number") : parsed;
-    })
+    .argument(
+        "<radix>",
+        "The base/radix to encode with, clamped to range 2-36",
+        x => {
+            const parsed = parseInt(x, 10);
+            return Number.isNaN(parsed)
+                ? program.error("Base/Radix is not a valid base 10 number")
+                : parsed;
+        }
+    )
     .addArgument(inputArgument)
     .addOption(encodingOption)
     .addOption(fileFlag)
@@ -37,33 +60,65 @@ program.command("base")
     .alias("radix")
     .action((radix, input, options) => {
         try {
-            const output = dencodeme.base(radix).encode(options.file ?
-                fs.readFileSync(path.resolve(process.cwd(), input), options.encoding) : input);
-            options.out ? fs.writeFileSync(path.resolve(process.cwd(), options.out), output, options.encoding) :
-                process.stdout.write(output.toString(options.encoding));
+            const output = dencodeme
+                .base(radix)
+                .encode(
+                    options.file
+                        ? fs.readFileSync(
+                              path.resolve(process.cwd(), input),
+                              options.encoding
+                          )
+                        : input
+                );
+            options.out
+                ? fs.writeFileSync(
+                      path.resolve(process.cwd(), options.out),
+                      output,
+                      options.encoding
+                  )
+                : process.stdout.write(output.toString(options.encoding));
         } catch (err) {
             program.error(String(err));
         }
     });
 
 // Create a command for each base/radix in the dencodeme object
-for (const [command, base] of Object.entries(dencodeme).map(x => [x[0], typeof x[1] == "function" ? NaN : x[1].radix])
+for (const [command, base] of Object.entries(dencodeme)
+    .map(x => [x[0], typeof x[1] == "function" ? NaN : x[1].radix])
     .filter(x => !Number.isNaN(x[1]))) {
-    program.command(command)
+    program
+        .command(command)
         .summary(`Encodes the specified input data with base ${base}`)
-        .description(`Encodes the specified input data with a base/radix of ${base}`)
+        .description(
+            `Encodes the specified input data with a base/radix of ${base}`
+        )
         .usage("[options] <input>")
         .addArgument(inputArgument)
         .addOption(encodingOption)
         .addOption(fileFlag)
         .addOption(outOption)
-        .aliases(command.startsWith("base") ? [`b${command.slice(4)}`] : [command.slice(0, 3), `base${base}`, `b${base}`])
+        .aliases(
+            command.startsWith("base")
+                ? [`b${command.slice(4)}`]
+                : [command.slice(0, 3), `base${base}`, `b${base}`]
+        )
         .action((input, options) => {
             try {
-                const output = dencodeme[command].encode(options.file ?
-                    fs.readFileSync(path.resolve(process.cwd(), input), options.encoding) : input);
-                options.out ? fs.writeFileSync(path.resolve(process.cwd(), options.out), output, options.encoding) :
-                    process.stdout.write(output.toString(options.encoding));
+                const output = dencodeme[command].encode(
+                    options.file
+                        ? fs.readFileSync(
+                              path.resolve(process.cwd(), input),
+                              options.encoding
+                          )
+                        : input
+                );
+                options.out
+                    ? fs.writeFileSync(
+                          path.resolve(process.cwd(), options.out),
+                          output,
+                          options.encoding
+                      )
+                    : process.stdout.write(output.toString(options.encoding));
             } catch (err) {
                 program.error(String(err));
             }
